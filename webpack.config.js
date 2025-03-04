@@ -15,11 +15,27 @@ module.exports = {
       {
         test: /\.lua$/,
         type: 'asset/source'
+      },
+      {
+        test: /\.js$/,
+        type: 'javascript/auto',
+        resolve: {
+          fullySpecified: false
+        }
       }
     ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: {
+      "path": require.resolve("path-browserify"),
+      "fs": false,
+      "stream": require.resolve("stream-browserify")
+    },
+    alias: {
+      '@codemirror': path.resolve(__dirname, 'node_modules/@codemirror'),
+      '@lezer': path.resolve(__dirname, 'node_modules/@lezer')
+    }
   },
   output: {
     filename: 'bundle.js',
@@ -32,9 +48,17 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'),
+      directory: path.join(__dirname, 'public'),
+      publicPath: '/'
     },
     compress: true,
     port: 9000,
+    hot: true,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
   },
 }; 

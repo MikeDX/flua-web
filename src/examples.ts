@@ -1,9 +1,15 @@
 // Import example scripts
 import particlesScript from './examples/particles.lua';
+import boxScript from './examples/box.lua';
+import circleScript from './examples/circle.lua';
+import bunnyScript from './examples/bunny.lua';
 
 // Example scripts collection
 export const examples = {
-    particles: particlesScript
+    particles: particlesScript,
+    box: boxScript,
+    circle: circleScript,
+    bunny: bunnyScript
 };
 
 // Function to load an example script into the editor
