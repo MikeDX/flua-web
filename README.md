@@ -6,8 +6,9 @@ This project integrates Pixi.js v8 as a rendering backend with Lua as a scriptin
 
 - Real-time Lua script editing and execution
 - Pixi.js v8 rendering engine
-- Built-in functions for drawing shapes and manipulating the canvas
-- Game loop with setup, update, and draw functions
+- Built-in functions for drawing shapes and manipulating sprites
+- Frame-based animation system
+- Example scripts demonstrating various features
 
 ## Getting Started
 
@@ -43,44 +44,85 @@ The application is split into two main areas:
 
 The following functions are available in the Lua environment:
 
-#### Lifecycle Functions
-
-- `setup()`: Called once when the script starts
-- `update(dt)`: Called every frame with delta time in seconds
-- `draw()`: Called every frame after update
-
 #### Drawing Functions
 
-- `drawCircle(x, y, radius, color)`: Draw a circle
-- `drawRect(x, y, width, height, color)`: Draw a rectangle
+- `circle(x, y, radius, vertices, color, outline)`: Draw a circle
+  - `color`: Table with {r, g, b, a} values (0-1) or hex value
+  - `outline`: 0 for filled, 1 for outline
+- `box(x, y, width, height, color, outline)`: Draw a rectangle
 - `drawLine(x1, y1, x2, y2, color, thickness)`: Draw a line
 - `setBackgroundColor(color)`: Set the background color
+- `clear()`: Clear all graphics
+- `update()`: Update the display (yields to next frame)
 
-### Example
+#### Utility Functions
 
+- `gWidth()`: Get canvas width
+- `gHeight()`: Get canvas height
+- `getFPS()`: Get current FPS
+- `printAt(x, y, text)`: Draw text at position
+- `rnd(max)`: Get random number from 0 to max-1
+
+#### Sprite Functions
+
+- `loadImage(path)`: Load an image texture
+- `createSprite()`: Create a new sprite
+- `setSpriteImage(sprite, texture)`: Set sprite texture
+- `setSpritePosition(sprite, x, y)`: Set sprite position
+- `setSpriteColor(sprite, r, g, b, a)`: Set sprite color/tint
+- `setSpriteSpeed(sprite, {x, y})`: Set sprite movement speed
+- `updateSprites()`: Update all sprites
+- `drawSprites()`: Draw all sprites
+
+### Example Scripts
+
+#### Particles Example
 ```lua
-function setup()
-    -- Initialize variables
-    circle = {x = 400, y = 300, radius = 50, color = 0xFF0000}
-end
+-- Initialize particle system
+local particles = {}
+local emitterX = gWidth() / 2
+local emitterY = gHeight() / 2
+local totalTime = 0
+local dt = 0.016  -- Fixed time step
 
-function update(dt)
-    -- Update logic
-    circle.x = circle.x + math.sin(os.clock()) * 2
-    circle.y = circle.y + math.cos(os.clock()) * 2
+while true do
+    clear()
+    totalTime = totalTime + dt
+    
+    -- Update and spawn particles
+    -- Move emitter in a circle
+    emitterX = gWidth() / 2 + math.cos(totalTime * 2) * 100
+    emitterY = gHeight() / 2 + math.sin(totalTime * 2) * 100
+    
+    -- Display stats
+    printAt(10, 10, "FPS: " .. getFPS())
+    update()
 end
+```
 
-function draw()
-    -- Draw to the screen
-    drawCircle(circle.x, circle.y, circle.radius, circle.color)
+#### Bunny Example
+```lua
+bunny = loadImage("assets/wabbit_alpha.png")
+while true do
+    clear()
+    t = touch()
+    if t[0].z then
+        -- Spawn bunnies on click
+        createSprite()
+        setSpriteImage(newbunny, bunny)
+    end
+    updateSprites()
+    drawSprites()
+    update()
 end
 ```
 
 ## Technical Notes
 
-- This project uses Pixi.js v8, which requires asynchronous initialization
-- Fengari is used as the Lua VM implementation for JavaScript
-- TypeScript is used for type safety and better development experience
+- Uses frame-based timing for consistent animation
+- Supports both filled and outlined shapes
+- Color values can be specified as RGB tables or hex values
+- Sprites support automatic screen edge collision
 
 ## License
 
