@@ -4,7 +4,7 @@ This project integrates Pixi.js v8 as a rendering backend with Lua as a scriptin
 
 ## Live Demo
 
-Try out the live demo at [https://yourusername.github.io/pixidev](https://yourusername.github.io/pixidev)
+Try out the live demo at [https://mikedx.github.io/flua-web](https://yourusername.github.io/flua-web)
 
 ## Features
 
