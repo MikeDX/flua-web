@@ -43,12 +43,12 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html'
+      template: 'src/index.html'
     })
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, 'src'),
       publicPath: '/'
     },
     compress: true,
