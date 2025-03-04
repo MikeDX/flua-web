@@ -1,59 +1,43 @@
 -- Particle System Example
 
--- Particle class
-Particle = {}
-Particle.__index = Particle
-
-function Particle.new(x, y)
-    local self = setmetatable({}, Particle)
-    self.x = x
-    self.y = y
-    self.vx = math.random() * 4 - 2
-    self.vy = math.random() * 4 - 2
-    self.radius = math.random() * 5 + 2
-    self.life = math.random() * 2 + 1
-    self.maxLife = self.life
-    self.color = 0xFFFFFF
-    return self
-end
-
-function Particle:update()
-    self.x = self.x + self.vx
-    self.y = self.y + self.vy
-    self.vy = self.vy + 0.1 -- gravity
-    self.life = self.life - 0.016 -- Assume ~60fps
-    
-    -- Fade out as life decreases
-    local alpha = self.life / self.maxLife
-    local r = math.floor(255 * alpha)
-    local g = math.floor(100 * alpha)
-    local b = math.floor(50 * alpha)
-    self.color = (r << 16) + (g << 8) + b
-    
-    return self.life > 0
-end
-
-function Particle:draw()
-    drawCircle(self.x, self.y, self.radius * (self.life / self.maxLife), self.color)
-end
+-- Set background color to black
+setBackgroundColor(0x000000)
 
 -- Initialize particle system
-particles = {}
-emitterX = 400
-emitterY = 300
-
--- Set background color
-setBackgroundColor(0x000000)
+local particles = {}
+local emitterX = gWidth() / 2
+local emitterY = gHeight() / 2
+local totalTime = 0
+local dt = 0.016  -- Fixed time step (approximately 60 FPS)
 
 -- Main loop
 while true do
     -- Clear previous drawings
     clear()
     
-    -- Update existing particles
+    -- Update time (frame-based)
+    totalTime = totalTime + dt
+    
+    -- Update and remove dead particles
     local i = 1
     while i <= #particles do
-        if particles[i]:update() then
+        local p = particles[i]
+        
+        -- Update particle position
+        p.x = p.x + p.vx
+        p.y = p.y + p.vy
+        p.vy = p.vy + 0.1  -- gravity
+        p.life = p.life - dt  -- Use fixed time step
+        
+        -- Update particle color (fade out)
+        local alpha = p.life / p.maxLife
+        local r = math.floor(255 * alpha)
+        local g = math.floor(100 * alpha)
+        local b = math.floor(50 * alpha)
+        
+        -- Draw particle if alive, remove if dead
+        if p.life > 0 then
+            circle(p.x, p.y, p.radius * alpha, 32, {r/255, g/255, b/255, alpha}, 0)
             i = i + 1
         else
             table.remove(particles, i)
@@ -62,22 +46,30 @@ while true do
     
     -- Spawn new particles
     for i = 1, 3 do
-        table.insert(particles, Particle.new(emitterX, emitterY))
+        local p = {
+            x = emitterX,
+            y = emitterY,
+            vx = (rnd(200) - 100) / 25,
+            vy = (rnd(200) - 100) / 25,
+            radius = rnd(5) + 2,
+            life = rnd(200) / 100 + 1,
+            maxLife = 0  -- will be set below
+        }
+        p.maxLife = p.life
+        table.insert(particles, p)
     end
     
     -- Move emitter in a circle
-    local time = os.clock()
-    emitterX = 400 + math.cos(time) * 100
-    emitterY = 300 + math.sin(time) * 100
-    
-    -- Draw all particles
-    for i, particle in ipairs(particles) do
-        particle:draw()
-    end
+    emitterX = gWidth() / 2 + math.cos(totalTime * 2) * 100  -- Multiply by 2 for faster movement
+    emitterY = gHeight() / 2 + math.sin(totalTime * 2) * 100
     
     -- Draw emitter
-    drawCircle(emitterX, emitterY, 10, 0xFF0000)
+    circle(emitterX, emitterY, 10, 32, {1, 0, 0, 1}, 0)
     
-    -- Yield to update the display
+    -- Display stats
+    printAt(10, 10, "FPS: " .. getFPS())
+    printAt(10, 30, "Particles: " .. #particles)
+    
+    -- Update display
     update()
 end 
