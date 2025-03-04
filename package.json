@@ -1,0 +1,26 @@
+{
+  "name": "pixidev",
+  "version": "1.0.0",
+  "description": "Pixi.js with Lua Scripting",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "start": "webpack serve --open",
+    "build": "webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["pixi.js", "lua", "scripting", "game", "graphics"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fengari-web": "^0.1.4",
+    "pixi.js": "^8.0.0"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.3",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}

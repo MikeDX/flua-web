@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixi.js with Lua Scripting</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            display: flex;
+            height: 100vh;
+        }
+        #canvas-container {
+            flex: 1;
+        }
+        #editor-container {
+            width: 40%;
+            background-color: #2d2d2d;
+            color: #fff;
+            font-family: monospace;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        #lua-editor {
+            flex: 1;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            resize: none;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        #run-button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #run-button:hover {
+            background-color: #45a049;
+        }
+        #examples-dropdown {
+            padding: 8px;
+            background-color: #333;
+            color: white;
+            border: 1px solid #555;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div id="editor-container">
+        <h3>Lua Script Editor</h3>
+        <textarea id="lua-editor">-- Write your Lua code here
+function setup()
+    -- This function is called once at the beginning
+    circle = {x = 400, y = 300, radius = 50, color = 0xFF0000}
+end
+
+function update(dt)
+    -- This function is called every frame
+    -- dt is the time elapsed since the last frame
+    circle.x = circle.x + math.sin(os.clock()) * 2
+    circle.y = circle.y + math.cos(os.clock()) * 2
+end
+
+function draw()
+    -- This function is called to draw on the screen
+    drawCircle(circle.x, circle.y, circle.radius, circle.color)
+end</textarea>
+        <div id="controls">
+            <select id="examples-dropdown">
+                <option value="">Select an example</option>
+                <option value="particles">Particle System</option>
+            </select>
+            <button id="run-button">Run Script</button>
+        </div>
+    </div>
+</body>
+</html> 
