@@ -25,7 +25,13 @@ if (hasAssets) {
     plugins.push(
         new CopyWebpackPlugin({
             patterns: [
-                { from: 'assets', to: 'assets' }
+                { 
+                    from: 'assets',
+                    to: 'assets',
+                    globOptions: {
+                        ignore: ['**/.DS_Store', '**/Thumbs.db']
+                    }
+                }
             ]
         })
     );
@@ -37,7 +43,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
-        clean: true
+        clean: true,
+        publicPath: '/flua-web/'
     },
     module: {
         rules: [
@@ -53,13 +60,32 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js'],
+        fallback: {
+            "path": require.resolve("path-browserify"),
+            "fs": false,
+            "stream": require.resolve("stream-browserify")
+        }
     },
     plugins: plugins,
     optimization: {
         minimize: true,
         splitChunks: {
-            chunks: 'all'
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            minSize: 0,
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name(module) {
+                        const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                        return `vendor.${packageName.replace('@', '')}`;
+                    }
+                }
+            }
         }
+    },
+    performance: {
+        hints: false
     }
 }; 
