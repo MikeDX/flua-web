@@ -1,6 +1,35 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const fs = require('fs');
+
+// Check if assets directory exists
+const hasAssets = fs.existsSync(path.resolve(__dirname, 'assets'));
+
+const plugins = [
+    new HtmlWebpackPlugin({
+        template: 'src/index.html',
+        minify: {
+            collapseWhitespace: true,
+            removeComments: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            useShortDoctype: true
+        }
+    })
+];
+
+// Only add CopyWebpackPlugin if assets directory exists
+if (hasAssets) {
+    plugins.push(
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'assets', to: 'assets' }
+            ]
+        })
+    );
+}
 
 module.exports = {
     mode: 'production',
@@ -26,24 +55,7 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: 'src/index.html',
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                useShortDoctype: true
-            }
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: 'assets', to: 'assets' }
-            ]
-        })
-    ],
+    plugins: plugins,
     optimization: {
         minimize: true,
         splitChunks: {

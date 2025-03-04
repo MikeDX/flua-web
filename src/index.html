@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lua Graphics Playground</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #1e1e1e;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        #canvas-container {
+            flex: 3;
+            position: relative;
+        }
+        #editor-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #333;
+        }
+        #controls {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        #lua-editor {
+            flex: 1;
+            overflow: hidden;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #stop-button {
+            background-color: #f44336;
+        }
+        #stop-button:hover {
+            background-color: #da190b;
+        }
+        select {
+            padding: 8px;
+            background-color: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div id="editor-container">
+        <div id="controls">
+            <button id="run-button">Run (⌘+Enter)</button>
+            <button id="stop-button">Stop</button>
+            <select id="examples-dropdown">
+                <option value="">Select Example</option>
+                <option value="particles">Particles</option>
+                <option value="bunny">Bunny</option>
+                <option value="circle">Circle</option>
+                <option value="box">Box</option>
+            </select>
+        </div>
+        <div id="lua-editor"></div>
+    </div>
+</body>
+</html> 
