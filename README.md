@@ -2,6 +2,10 @@
 
 This project integrates Pixi.js v8 as a rendering backend with Lua as a scripting language. It allows you to write Lua code that controls graphics rendered by Pixi.js.
 
+## Live Demo
+
+Try out the live demo at [https://yourusername.github.io/pixidev](https://yourusername.github.io/pixidev)
+
 ## Features
 
 - Real-time Lua script editing and execution
@@ -33,6 +37,16 @@ npm start
 ```
 
 4. Open your browser and navigate to `http://localhost:9000`
+
+### Building for Production
+
+To build the project for production:
+
+```bash
+npm run build:prod
+```
+
+The built files will be in the `dist` directory.
 
 ## Usage
 

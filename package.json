@@ -1,46 +1,33 @@
 {
   "name": "pixidev",
   "version": "1.0.0",
-  "description": "Pixi.js with Lua Scripting",
-  "main": "dist/bundle.js",
+  "description": "Pixi.js with Lua scripting",
+  "main": "index.js",
   "scripts": {
-    "start": "webpack serve --open",
-    "build": "webpack --mode production",
+    "start": "webpack serve --config webpack.config.js",
+    "build:prod": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "pixi.js",
-    "lua",
-    "scripting",
-    "game",
-    "graphics"
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@codemirror/commands": "6.2.4",
-    "@codemirror/language": "6.9.0",
-    "@codemirror/state": "6.2.1",
-    "@codemirror/theme-one-dark": "6.1.2",
-    "@codemirror/view": "6.20.0",
-    "@lezer/common": "1.0.4",
-    "@lezer/highlight": "1.1.6",
+    "@codemirror/commands": "^6.3.3",
+    "@codemirror/language": "^6.10.1",
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "@codemirror/view": "^6.24.1",
     "fengari-web": "^0.1.4",
-    "parse-svg-path": "^0.1.2",
-    "pixi.js": "^8.0.0"
+    "pixi.js": "^8.0.2"
   },
   "devDependencies": {
-    "@types/node": "^20.17.23",
-    "@xmldom/xmldom": "^0.8.10",
-    "html-webpack-plugin": "^5.5.3",
-    "ismobilejs": "^1.1.1",
-    "path-browserify": "^1.0.1",
-    "stream-browserify": "^3.0.0",
-    "ts-loader": "^9.5.2",
-    "typescript": "^5.8.2",
-    "webpack": "^5.89.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "html-webpack-plugin": "^5.6.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^5.0.2"
   },
   "peerDependencies": {
     "@codemirror/state": "6.2.1",
